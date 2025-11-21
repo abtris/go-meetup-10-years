@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en" class="font-sans">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prague Golang Meetup - Community Insights</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            /* Slate 50 */
+            color: #334155;
+            /* Slate 700 */
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            margin: 0 auto;
+        }
+
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+    </style>
+</head>
+
+<body class="p-4 md:p-8 lg:p-12">
+
+    <!-- Header -->
+    <header
+        class="max-w-7xl mx-auto mb-12 text-center md:text-left grid grid-cols-1 md:grid-cols-2 gap-8 items-center border-b-4 border-[#0EA5E9] pb-8">
+        <div>
+            <h1 class="text-4xl md:text-6xl font-extrabold text-[#0F172A] tracking-tight mb-2">
+                PRAGUE <span class="text-[#0EA5E9]">GOLANG</span>
+            </h1>
+            <p class="text-xl text-slate-500 font-light">
+                Community & Content Insights (2015–2025)
+            </p>
+        </div>
+        <div
+            class="bg-white p-6 rounded-xl shadow-lg border-l-8 border-[#0EA5E9] flex flex-col sm:flex-row justify-around items-center gap-4">
+            <div class="text-center">
+                <p class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-1">Community Size</p>
+                <div class="text-4xl font-black text-[#0F172A]">1,155</div>
+            </div>
+            <div class="w-px h-12 bg-slate-200 hidden sm:block"></div>
+            <div class="text-center">
+                <p class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-1">Key Speakers</p>
+                <div class="text-4xl font-black text-[#0EA5E9]">30+</div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto grid grid-cols-1 gap-12">
+
+        <!-- Section 1: High Level Metrics -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Metric 1: Events -->
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                <div class="text-4xl font-bold text-[#0EA5E9] mb-2">22</div>
+                <div class="text-sm font-semibold text-slate-600 uppercase">Total Events</div>
+                <p class="text-xs text-slate-400 mt-2">Scheduled through 2025</p>
+            </div>
+
+            <!-- Metric 2: Talks (REPLACED "Years Active") -->
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                <div class="text-4xl font-bold text-[#0EA5E9] mb-2">55+</div>
+                <div class="text-sm font-semibold text-slate-600 uppercase">Total Talks</div>
+                <p class="text-xs text-slate-400 mt-2">Technical sessions delivered</p>
+            </div>
+
+            <!-- Metric 3: Venues (Previously Added) -->
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                <div class="text-4xl font-bold text-[#0EA5E9] mb-2">12</div>
+                <div class="text-sm font-semibold text-slate-600 uppercase">Unique Venues</div>
+                <p class="text-xs text-slate-400 mt-2">Across Prague Tech Hubs</p>
+            </div>
+        </section>
+
+        <!-- Section 2: Event & Venue Analytics -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="bg-white p-6 md:p-8 rounded-2xl shadow-lg border border-slate-100">
+                <h3 class="text-xl font-bold text-[#0F172A] mb-2">Event Frequency</h3>
+                <p class="text-sm text-slate-500 mb-6">Growth timeline showing the community's consistent activity.</p>
+                <div class="chart-container">
+                    <canvas id="timelineChart"></canvas>
+                </div>
+            </div>
+            <div class="bg-white p-6 md:p-8 rounded-2xl shadow-lg border border-slate-100">
+                <h3 class="text-xl font-bold text-[#0F172A] mb-2">All Hosts</h3>
+                <p class="text-sm text-slate-500 mb-6">Pure Storage and Apiary leading the venue contributions.</p>
+                <div class="chart-container">
+                    <canvas id="venueChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Speakers & Topics Analysis -->
+        <div class="flex items-center mt-8 mb-4">
+            <div class="h-8 w-2 bg-[#0EA5E9] mr-3 rounded-full"></div>
+            <h2 class="text-2xl font-bold text-[#0F172A]">Content & Speakers</h2>
+        </div>
+
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Speaker Chart (Horizontal Bar) -->
+            <div class="bg-white p-6 md:p-8 rounded-2xl shadow-lg border border-slate-100">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <h3 class="text-xl font-bold text-[#0F172A]">Top 5 Speakers</h3>
+                        <p class="text-sm text-slate-500">Most active contributors to the community.</p>
+                    </div>
+                    <div class="bg-sky-50 p-2 rounded-lg">
+                        <span class="text-2xl">🎤</span>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="speakerChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Topic Chart (Polar Area) -->
+            <div class="bg-white p-6 md:p-8 rounded-2xl shadow-lg border border-slate-100">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <h3 class="text-xl font-bold text-[#0F172A]">Top 5 Talk Themes</h3>
+                        <p class="text-sm text-slate-500">Most frequent topics based on talk descriptions.</p>
+                    </div>
+                    <div class="bg-sky-50 p-2 rounded-lg">
+                        <span class="text-2xl">💡</span>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="topicChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <footer class="text-center text-slate-400 text-sm pt-12 pb-12">
+            <p>&copy; 2024 Prague Golang Meetup Infographic.</p>
+            <p class="mt-2 opacity-75">Based on community event and talk records.</p>
+        </footer>
+
+    </main>
+
+    <script>
+        (function () {
+            'use strict';
+
+            // --- Chart Configuration ---
+            const colorPrimary = '#0EA5E9';
+            const colorDark = '#0F172A';
+
+            const commonOptions = {
+                maintainAspectRatio: false,
+                responsive: true,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: colorDark,
+                        titleColor: '#fff',
+                        bodyColor: '#cbd5e1',
+                        padding: 10,
+                        cornerRadius: 6,
+                        displayColors: false,
+                        callbacks: {
+                            title: function (tooltipItems) {
+                                const item = tooltipItems[0];
+                                let label = item.chart.data.labels[item.dataIndex];
+                                return Array.isArray(label) ? label.join(' ') : label;
+                            }
+                        }
+                    }
+                }
+            };
+
+            const wrapLabel = (str, maxLen) => {
+                if (str.length <= maxLen) return str;
+                const words = str.split(' ');
+                const lines = [];
+                let currentLine = words[0];
+                for (let i = 1; i < words.length; i++) {
+                    if (currentLine.length + 1 + words[i].length <= maxLen) {
+                        currentLine += ' ' + words[i];
+                    } else {
+                        lines.push(currentLine);
+                        currentLine = words[i];
+                    }
+                }
+                lines.push(currentLine);
+                return lines;
+            };
+
+            Chart.defaults.font.family = "'Inter', sans-serif";
+            Chart.defaults.color = '#64748b';
+            Chart.defaults.borderColor = '#e2e8f0';
+
+            // --- 1. Timeline Data ---
+            const timelineLabels = ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025'];
+            const timelineData = [1, 0, 0, 2, 1, 0, 2, 3, 4, 5, 4];
+
+            new Chart(document.getElementById('timelineChart'), {
+                type: 'bar',
+                data: {
+                    labels: timelineLabels,
+                    datasets: [{
+                        label: 'Events',
+                        data: timelineData,
+                        backgroundColor: timelineData.map(v => v === 0 ? '#f1f5f9' : colorPrimary),
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    ...commonOptions,
+                    scales: {
+                        y: { beginAtZero: true, ticks: { stepSize: 1 } },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+
+            // --- 2. Venue Data ---
+            const venueLabels = ['Pure Storage', 'Apiary', 'Betsys', 'Productboard', 'SentinelOne', 'Online', 'Others'];
+            const venueData = [5, 3, 2, 2, 2, 2, 6];
+
+            new Chart(document.getElementById('venueChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: venueLabels.map(l => wrapLabel(l, 16)),
+                    datasets: [{
+                        data: venueData,
+                        backgroundColor: ['#0EA5E9', '#0284C7', '#0369A1', '#38BDF8', '#7DD3FC', '#94a3b8', '#cbd5e1'],
+                        borderWidth: 0,
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    ...commonOptions,
+                    cutout: '65%',
+                    plugins: {
+                        ...commonOptions.plugins,
+                        legend: { position: 'right', labels: { boxWidth: 12, padding: 15 } }
+                    }
+                }
+            });
+
+            // --- 3. Top Speakers Data ---
+            const speakerLabels = [
+                'Ladislav Prskavec',
+                'Vilibald Wanca',
+                'Daniel Milde',
+                'Tomáš Procházka',
+                'Matúš Bafrnec'
+            ];
+            const speakerData = [8, 6, 3, 3, 2];
+
+            new Chart(document.getElementById('speakerChart'), {
+                type: 'bar',
+                data: {
+                    labels: speakerLabels,
+                    datasets: [{
+                        label: 'Talks Given',
+                        data: speakerData,
+                        backgroundColor: [
+                            '#0EA5E9', // Ladislav
+                            '#38BDF8', // Vilibald
+                            '#7DD3FC', // Daniel
+                            '#BAE6FD', // Tomas
+                            '#E0F2FE'  // Matus
+                        ],
+                        borderRadius: 4,
+                        barThickness: 25
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    ...commonOptions,
+                    scales: {
+                        x: { beginAtZero: true, ticks: { stepSize: 1 } },
+                        y: { grid: { display: false } }
+                    }
+                }
+            });
+
+            // --- 4. Topics Data ---
+            const topicLabels = [
+                'Core Language & Basics',
+                'Cloud & AWS',
+                'Real-World Exp.',
+                'Testing & Quality',
+                'WASM & IoT'
+            ];
+            const topicData = [10, 8, 6, 4, 3];
+            const topicColors = [
+                'rgba(14, 165, 233, 0.85)',
+                'rgba(2, 132, 199, 0.8)',
+                'rgba(56, 189, 248, 0.75)',
+                'rgba(125, 211, 252, 0.7)',
+                'rgba(186, 230, 253, 0.65)'
+            ];
+
+            new Chart(document.getElementById('topicChart'), {
+                type: 'polarArea',
+                data: {
+                    labels: topicLabels.map(l => wrapLabel(l, 20)),
+                    datasets: [{
+                        data: topicData,
+                        backgroundColor: topicColors,
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    responsive: true,
+                    plugins: {
+                        legend: { position: 'right', labels: { boxWidth: 12, padding: 10 } },
+                        tooltip: {
+                            backgroundColor: colorDark,
+                            callbacks: {
+                                title: function (tooltipItems) {
+                                    const item = tooltipItems[0];
+                                    let label = item.chart.data.labels[item.dataIndex];
+                                    return Array.isArray(label) ? label.join(' ') : label;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        r: {
+                            ticks: { display: false },
+                            grid: { color: '#e2e8f0' }
+                        }
+                    }
+                }
+            });
+
+        })();
+    </script>
+</body>
+
+</html>
